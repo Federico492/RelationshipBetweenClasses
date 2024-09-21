@@ -29,7 +29,7 @@ open class SmartDevice(val name: String, val category: String){
 //Create a SmartTvDevice subclass that extends the SmartDevice superclass:
 
 class SmartTvDevice(deviceName: String, deviceCategory: String) : 
-  SmartDevice(name: String, category: String) {
+  SmartDevice(name = deviceName, category = deviceCategory) {
     
     var speakerVolume = 2
     set(value) {
@@ -43,12 +43,89 @@ class SmartTvDevice(deviceName: String, deviceCategory: String) :
       if(value in 0..200){
         field = value
       }
-    }
-//Define an increaseSpeakerVolume() method that increases the volume and prints a "Speaker volume increased to $speakerVolume." string:
+   
 
-    fun increaseSpeakerVolume()
+    //Define an increaseSpeakerVolume() method that increases the volume and prints a "Speaker volume increased to $speakerVolume." string:
+
+    fun increaseSpeakerVolume(){
       speakerVolume++
       println("Speaker volume is increased to $speakerVolume.")
+       }
+    }
+
+//Define an increaseBrightness() method that increases the brightness of the light and prints a "Brightness increased to $brightnessLevel." string:
+    class SmartLightDevice(deviceName: String, deviceCategory: String) :
+        SmartDevice(name = deviceName, category = deviceCategory) {
+    
+        var brightnessLevel = 0
+            set(value) {
+                if (value in 0..100) {
+                    field = value
+                }
+            }
+    
+        fun increaseBrightness() {
+            brightnessLevel++
+            println("Brightness increased to $brightnessLevel.")
+        }
+
+        override fun turnOn() {
+            super.turnOn()
+            brightnessLevel = 2
+            println("$name turned on. The brightness level is $brightnessLevel.")
+        }
+    
+        override fun turnOff() {
+            super.turnOff()
+            brightnessLevel = 0
+            println("Smart Light turned off")
+        }
+    }
+      
+
+  }
+//In between the SmartLightDevice class and main() function, define a SmartHome class
+  class SmartHome(
+      val smartTvDevice: SmartTvDevice
+      val smartLightDevice: SmartLightDevice
+  ){
+      fun turnOnTv() {
+        smartTvDevice.turnOn()
+    }
+
+    fun turnOffTv() {
+        smartTvDevice.turnOff()
+    }
+
+    fun increaseTvVolume() {
+        smartTvDevice.increaseSpeakerVolume()
+    }
+
+    fun changeTvChannelToNext() {
+        smartTvDevice.nextChannel()
+    }
+    //////////////////////////////////
+
+    fun turnOnLight() {
+        smartLightDevice.turnOn()
+    }
+
+    fun turnOffLight() {
+        smartLightDevice.turnOff()
+    }
+
+    fun increaseLightBrightness() {
+        smartLightDevice.increaseBrightness()
+    }
+
+    fun turnOffAllDevices() {
+        turnOffTv()
+        turnOffLight()
+    }
+  }
+
+  fun main(){
+      
   }
 
 
